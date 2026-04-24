@@ -91,7 +91,7 @@ export const loginUser = async (req, res) => {
          cookie.serialize("accessToken", accessToken, {
             httpOnly: true,
             secure: isProduction,
-            maxAge: 60 * 60,
+            maxAge: 60 * 60 * 24 * 7,
             path: "/",
             sameSite: isProduction ? "none" : "lax",
             domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,
@@ -136,7 +136,7 @@ export const logoutUser = async (req, res) => {
          cookie.serialize("accessToken", "", {
             httpOnly: true,
             secure: isProduction,
-            maxAge: 60 * 60,
+            maxAge: 60 * 60 * 24 * 7,
             path: "/",
             sameSite: isProduction ? "none" : "lax",
             domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,
@@ -144,7 +144,7 @@ export const logoutUser = async (req, res) => {
          cookie.serialize("refreshToken", "", {
             httpOnly: true,
             secure: isProduction,
-            maxAge: 60 * 60,
+            maxAge: 60 * 60 * 24 * 30,
             path: "/",
             sameSite: isProduction ? "none" : "lax",
             domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,
@@ -181,7 +181,7 @@ export const refreshToken = async (req, res) => {
             cookie.serialize("accessToken", "", {
                httpOnly: true,
                secure: isProduction,
-               maxAge: 60 * 60,
+               maxAge: 60 * 60 * 24 * 7,
                path: "/",
                sameSite: isProduction ? "none" : "lax",
                domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,
@@ -190,7 +190,7 @@ export const refreshToken = async (req, res) => {
             cookie.serialize("refreshToken", "", {
                httpOnly: true,
                secure: process.env.NODE_ENV === "production",
-               maxAge: 0,
+               maxAge: 60 * 60 * 24 * 30,
                path: "/",
                sameSite: "lax"
 
@@ -211,7 +211,7 @@ export const refreshToken = async (req, res) => {
          cookie.serialize("accessToken", newAccessToken, {
             httpOnly: true,
             secure: isProduction,
-            maxAge: 60 * 60,
+            maxAge: 60 * 60 * 24 * 7,
             path: "/",
             sameSite: isProduction ? "none" : "lax",
             domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,

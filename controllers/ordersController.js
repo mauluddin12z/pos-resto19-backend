@@ -82,10 +82,17 @@ export const getOrders = async (req, res) => {
          const start = nowWIB.startOf("day").toUTC().toJSDate();
          const end = nowWIB.endOf("day").toUTC().toJSDate();
          dateFilter.createdAt = { [Op.between]: [start, end] };
+
+      } else if (dateRange === "thisWeek") {
+         const start = nowWIB.startOf("week").toUTC().toJSDate();
+         const end = nowWIB.endOf("week").toUTC().toJSDate();
+         dateFilter.createdAt = { [Op.between]: [start, end] };
+
       } else if (dateRange === "thisMonth") {
          const start = nowWIB.startOf("month").toUTC().toJSDate();
          const end = nowWIB.endOf("month").toUTC().toJSDate();
          dateFilter.createdAt = { [Op.between]: [start, end] };
+
       } else if (dateRange === "thisYear") {
          const start = nowWIB.startOf("year").toUTC().toJSDate();
          const end = nowWIB.endOf("year").toUTC().toJSDate();
@@ -112,11 +119,11 @@ export const getOrders = async (req, res) => {
       // Search condition
       const searchCondition = searchQuery
          ? {
-              [Op.or]: [
-                 { paymentMethod: { [Op.like]: `%${searchQuery}%` } },
-                 { notes: { [Op.like]: `%${searchQuery}%` } },
-              ],
-           }
+            [Op.or]: [
+               { paymentMethod: { [Op.like]: `%${searchQuery}%` } },
+               { notes: { [Op.like]: `%${searchQuery}%` } },
+            ],
+         }
          : {};
 
       const offset = (pageNum - 1) * size;
