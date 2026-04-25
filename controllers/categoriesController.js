@@ -18,7 +18,7 @@ export const getCategories = async (req, res) => {
       // Build search condition
       const searchCondition = searchQuery
          ? {
-              categoryName: { [Op.like]: `%${searchQuery}%` }, // Search by categoryName, can add more fields if needed
+            categoryName: { [Op.like]: `%${searchQuery}%` }, // Search by categoryName, can add more fields if needed
          }
          : {};
 
@@ -56,7 +56,7 @@ export const getCategoryById = async (req, res) => {
       const category = await Category.findByPk(categoryId);
       if (!category) {
          return res.status(messages.HTTP_STATUS.NOT_FOUND.code).json({
-            code: messages.HTTP_STATUS.NOT_FOUND.message,
+            code: messages.HTTP_STATUS.NOT_FOUND.code,
             message: messages.HTTP_STATUS.NOT_FOUND.message,
          });
       }
@@ -132,7 +132,7 @@ export const updateCategory = async (req, res) => {
       let category = await Category.findByPk(categoryId);
       if (!category) {
          return res.status(messages.HTTP_STATUS.NOT_FOUND.code).json({
-            code: messages.HTTP_STATUS.NOT_FOUND.message,
+            code: messages.HTTP_STATUS.NOT_FOUND.code,
             message: messages.HTTP_STATUS.NOT_FOUND.message,
          });
       }
@@ -186,7 +186,7 @@ export const deleteCategory = async (req, res) => {
       const category = await Category.findByPk(categoryId);
       if (!category) {
          return res.status(messages.HTTP_STATUS.NOT_FOUND.code).json({
-            code: messages.HTTP_STATUS.NOT_FOUND.message,
+            code: messages.HTTP_STATUS.NOT_FOUND.code,
             message: messages.HTTP_STATUS.NOT_FOUND.message,
          });
       }

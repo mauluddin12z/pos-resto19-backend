@@ -32,6 +32,21 @@ const translations = {
 
       username_exists: "Username already exists",
       logout_error: "Error during logout",
+
+      // Specific error messages
+      data_found: "Data found",
+      no_data_found: "No data found",
+      not_found: "Not found",
+      x_not_found: "%{name} not found!",
+      updated_successfully: "Updated successfully",
+      x_updated_successfully: "%{name} updated successfully",
+      created_successfully: "Created successfully",
+      x_created_successfully: "%{name} created successfully",
+      deleted_successfully: "Deleted successfully",
+      x_deleted_successfully: "%{name} deleted successfully",
+      request_submitted: "Order %{code} Code has been Submitted successfully",
+      orders_not_found: "No orders yet",
+      duplicate_name: "%{name} with this name already exists.",
    },
 
    id: {
@@ -65,6 +80,21 @@ const translations = {
 
       username_exists: "Username sudah digunakan",
       logout_error: "Terjadi kesalahan saat logout",
+
+      // Specific error messages
+      data_found: "Data ditemukan",
+      no_data_found: "Tidak ada data ditemukan",
+      not_found: "Tidak ditemukan",
+      x_not_found: "%{name} tidak ditemukan!",
+      updated_successfully: "Berhasil diperbarui",
+      x_updated_successfully: "%{name} berhasil diperbarui",
+      created_successfully: "Berhasil dibuat",
+      x_created_successfully: "%{name} berhasil dibuat",
+      deleted_successfully: "Berhasil dihapus",
+      x_deleted_successfully: "%{name} berhasil dihapus",
+      request_submitted: "Pesanan dengan kode %{code} berhasil dikirim",
+      orders_not_found: "Belum ada pesanan",
+      duplicate_name: "%{name} dengan nama ini sudah ada.",
    },
 };
 
