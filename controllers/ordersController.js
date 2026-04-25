@@ -17,7 +17,6 @@ export const getOrders = async (req, res) => {
          username,
          minTotal,
          maxTotal,
-         paymentMethod,
          searchQuery,
          page = 1,
          pageSize = 10,
@@ -25,6 +24,7 @@ export const getOrders = async (req, res) => {
          sortOrder = "DESC",
          dateRange,
          fromDate,
+         paymentMethod,
          toDate,
          paymentStatus,
       } = req.query;
@@ -120,8 +120,7 @@ export const getOrders = async (req, res) => {
       const searchCondition = searchQuery
          ? {
             [Op.or]: [
-               { paymentMethod: { [Op.like]: `%${searchQuery}%` } },
-               { notes: { [Op.like]: `%${searchQuery}%` } },
+               { paymentMethod: { [Op.like]: `%${searchQuery}%` } }
             ],
          }
          : {};

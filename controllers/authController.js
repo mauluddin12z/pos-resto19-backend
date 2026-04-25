@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { handleServerError } from "../utils/errorHandler.js";
 import dotenv from "dotenv";
 import cookie from "cookie";
+import messages from "../utils/messages.js";
 dotenv.config();
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
@@ -29,13 +30,13 @@ export const registerUser = async (req, res) => {
       if (!name || !username || !password || !role) {
          return res.status(400).json({
             code: 400,
-            message: "All fields are required",
+            message: messages.all_fields_required,
          });
       }
 
       const existingUser = await Users.findOne({ where: { username } });
       if (existingUser) {
-         return res.status(409).json({ message: "Username already exists" });
+         return res.status(409).json({ message: messages.username_exists });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -49,7 +50,7 @@ export const registerUser = async (req, res) => {
 
       res.status(201).json({
          code: 201,
-         message: "User registered successfully",
+         message: messages.register_success,
          data: {
             userId: user.userId,
             name: user.name,
@@ -73,7 +74,7 @@ export const loginUser = async (req, res) => {
       if (!user || !(await bcrypt.compare(password, user.password))) {
          return res
             .status(401)
-            .json({ message: "Invalid username or password" });
+            .json({ message: messages.invalid_credentials });
       }
 
       const payload = { userId: user.userId, role: user.role };
@@ -108,7 +109,7 @@ export const loginUser = async (req, res) => {
 
       // Respond with user details (but don't send tokens)
       res.status(200).json({
-         message: "Login successful",
+         message: messages.login_success,
          data: {
             userId: user.userId,
             name: user.name,
@@ -152,11 +153,11 @@ export const logoutUser = async (req, res) => {
       ]);
 
       // Respond with a success message
-      res.status(200).json({ message: "Logout successful" });
+      res.status(200).json({ message: messages.logout_success });
    } catch (error) {
       console.error("Error during logout:", error);
       res.status(500).json({
-         message: "Error during logout",
+         message: messages.logout_error,
          error: error.message,
       });
    }
@@ -167,7 +168,7 @@ export const refreshToken = async (req, res) => {
    const refreshToken = req.cookies.refreshToken;
 
    if (!refreshToken) {
-      return res.status(401).json({ message: "Refresh token required" });
+      return res.status(401).json({ message: messages.refresh_token_required });
    }
 
    try {
@@ -196,7 +197,7 @@ export const refreshToken = async (req, res) => {
 
             }),
          ]);
-         return res.status(403).json({ message: "Invalid refresh token" });
+         return res.status(403).json({ message: messages.invalid_refresh_token });
       }
 
       // Generate new access token
@@ -219,7 +220,7 @@ export const refreshToken = async (req, res) => {
       );
 
       return res.status(200).json({
-         message: "Access token refreshed",
+         message: messages.access_token_refreshed,
          accessToken: newAccessToken,
       });
    } catch (error) {
@@ -227,6 +228,6 @@ export const refreshToken = async (req, res) => {
       console.error("Error refreshing token:", error);
       return res
          .status(403)
-         .json({ message: "Invalid or expired refresh token" });
+         .json({ message: messages.invalid_or_expired_refresh_token });
    }
 };

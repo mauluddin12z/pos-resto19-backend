@@ -173,7 +173,7 @@ export const deleteOrderDetailsByOrderId = async (req, res) => {
       if (!details.length) {
          return res.status(messages.HTTP_STATUS.NOT_FOUND.code).json({
             code: messages.HTTP_STATUS.NOT_FOUND.code,
-            message: "No order details found for this order.",
+            message: messages.HTTP_STATUS.NOT_FOUND.message,
          });
       }
 

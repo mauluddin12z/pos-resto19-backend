@@ -31,7 +31,7 @@ export const getUserById = async (req, res) => {
       if (!user) {
          return res.status(404).json({
             code: messages.HTTP_STATUS.NOT_FOUND.code,
-            message: "User not found",
+            message: messages.HTTP_STATUS.NOT_FOUND.message,
          });
       }
 
@@ -47,8 +47,8 @@ export const getUserById = async (req, res) => {
 // Get user by ID
 export const getSession = async (req, res) => {
    res.status(200).json({
-      loggedIn:true,
-      user:req.user
+      loggedIn: true,
+      user: req.user
    });
 };
 
@@ -58,16 +58,16 @@ export const createUser = async (req, res) => {
       const { name, username, password, role } = req.body;
       if (!name || !username || !password || !role) {
          return res.status(400).json({
-            code: 400,
-            message: "All fields are required",
+            code: messages.HTTP_STATUS.BAD_REQUEST.code,
+            message: messages.HTTP_STATUS.BAD_REQUEST.message,
          });
       }
 
       const existingUser = await Users.findOne({ where: { username } });
       if (existingUser) {
          return res.status(409).json({
-            code: 409,
-            message: "Username already exists",
+            code: messages.HTTP_STATUS.CONFLICT.code,
+            message: messages.HTTP_STATUS.CONFLICT.message,
          });
       }
 
@@ -80,8 +80,8 @@ export const createUser = async (req, res) => {
       });
 
       res.status(201).json({
-         code: 201,
-         message: "User created successfully",
+         code: messages.HTTP_STATUS.CREATED.code,
+         message: messages.HTTP_STATUS.CREATED.message,
          data: {
             userId: user.userId,
             name: user.name,
@@ -103,8 +103,8 @@ export const updateUser = async (req, res) => {
       const user = await Users.findByPk(userId);
       if (!user) {
          return res.status(404).json({
-            code: 404,
-            message: "User not found",
+            code: messages.HTTP_STATUS.NOT_FOUND.code,
+            message: messages.HTTP_STATUS.NOT_FOUND.message,
          });
       }
 
@@ -112,7 +112,10 @@ export const updateUser = async (req, res) => {
       if (username && username !== user.username) {
          const duplicate = await Users.findOne({ where: { username } });
          if (duplicate) {
-            return res.status(409).json({ message: "Username already taken" });
+            return res.status(409).json({
+               code: messages.HTTP_STATUS.CONFLICT.code,
+               message: messages.HTTP_STATUS.CONFLICT.message,
+            });
          }
       }
 
@@ -127,8 +130,8 @@ export const updateUser = async (req, res) => {
       await user.save();
 
       res.status(200).json({
-         code: 200,
-         message: "User updated successfully",
+         code: messages.HTTP_STATUS.OK.code,
+         message: messages.HTTP_STATUS.OK.message,
          data: {
             userId: user.userId,
             name: user.name,
@@ -149,16 +152,16 @@ export const deleteUser = async (req, res) => {
       const user = await Users.findByPk(userId);
       if (!user) {
          return res.status(404).json({
-            code: 404,
-            message: "User not found",
+            code: messages.HTTP_STATUS.NOT_FOUND.code,
+            message: messages.HTTP_STATUS.NOT_FOUND.message,
          });
       }
 
       await user.destroy();
 
       res.status(200).json({
-         code: 200,
-         message: "User deleted successfully",
+         code: messages.HTTP_STATUS.OK.code,
+         message: messages.HTTP_STATUS.OK.message,
       });
    } catch (error) {
       handleServerError(error, res);
